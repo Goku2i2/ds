@@ -1,0 +1,14 @@
+{% extends 'ascensor/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="row">&nbsp;</div>
+    <h3 class="Titulo">Nueva Orden</h3>
+    <div class="row">&nbsp;</div>
+    <div class="container-fluid ">    
+    <form action="NuevaOrden.html" method="post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <input type="submit" value="Guardar" class="btn btn-success" id="btnVarios"/>
+    </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends 'ascensor/base_admin.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="row">&nbsp;</div>
+    <h3 class="Titulo">Listado de clientes</h3>
+    <div class="row">&nbsp;</div>
+    <div class="container-fluid ">
+        <table class="table" id="cliente-tabla" >
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Región</th>
+                <th scope="col">Comuna</th>
+                <th scope="col">Telefono</th> 
+                <th scope="col">Correo contacto</th>        
+                <th scope="col">Editar o Eliminar</th>     
+            </tr>
+            </thead>
+            <tbody id="cuerpoTabla">
+                {% for cliente in clientes %}
+                <tr>
+                    <td data-label="Nombre: &nbsp">{{cliente.nombre}}</td>
+                    <td data-label="Dirección: &nbsp">{{cliente.direccion}}</td>
+                    <td data-label="Región: &nbsp">{{cliente.region}}</td>
+                    <td data-label="Comuna: &nbsp">{{cliente.comuna}}</td>
+                    <td data-label="Telefono: &nbsp">{{cliente.telefono}}</td>
+                    <td data-label="Correo contacto:&nbsp ">{{cliente.correo}}</td>
+                    <td><i class="fas fa-user-edit" title="editar" onclick="editar('{{cliente.id}}')"></i>
+                        &nbsp;<i class="fas fa-minus-circle text-danger" onclick="eliminar('{{cliente.id}}')" title="eliminar"></i>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="row">&nbsp;</div>
+        <div class="row"><button class="btn btn-primary" id="btnVarios" onclick="nuevo()"> Agregar Nuevo Cliente</button></div>
+    </div>
+    <div class="modal fade" id="modalCliente" tabindex="-1" role="dialog" aria-labelledby="modalCliente" aria-hidden="true">
+    </div>
+{% endblock %}
+{% block js %}
+<script>
+    $().ready(function (){
+        $.getJSON("{% url 'formClientes' %}",function (resultado){
+            $('#modalCliente').html(resultado['formulario']);
+        });
+    });
+    function editar(clienteId)
+    {
+        $.getJSON("{% url 'formClientes' %}?id="+clienteId,function (resultado){
+            $('#modalCliente').html(resultado['formulario']);
+            $('#modalCliente').modal('show');
+        });
+    }
+    function nuevo()
+    {
+        $.getJSON("{% url 'formClientes' %}",function (resultado){
+            $('#modalCliente').html(resultado['formulario']);
+            $('#modalCliente').modal('show');
+        });
+    }
+    function eliminar(clienteId)
+    {
+        $.getJSON("{% url 'eliminarCliente' %}?id="+clienteId,function (resultado){
+            document.location.reload();
+        });
+    }
+</script>
+{% endblock %}

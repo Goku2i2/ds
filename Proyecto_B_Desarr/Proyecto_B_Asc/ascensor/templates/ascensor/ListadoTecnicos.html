@@ -1,0 +1,63 @@
+{% extends 'ascensor/base_admin.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="row">&nbsp;</div>
+    <h3 class="Titulo">Listado de técnicos</h3>
+    <div class="row">&nbsp;</div>
+    <div class="container-fluid ">
+        <table class="table" id="tecnico-tabla" >
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Dirección de Correo</th>    
+                <th scope="col">Editar - Eliminar</th>     
+            </tr>
+            </thead>
+            <tbody id="cuerpoTabla">
+                {% for tecnico in tecnicos %}
+                <tr>
+                    <td data-label="Nombre: &nbsp">{{tecnico.first_name}}</td>
+                    <td data-label="Apellidos: &nbsp">{{tecnico.last_name}}</td>
+                    <td data-label="Dirección de correo: &nbsp">{{tecnico.email}}</td>
+                    <td ><i class="fas fa-edit text-success" title="editar" onclick="editar('{{tecnico.id}}')" ></i>
+                    &nbsp;<i class="fas fa-minus-circle text-danger" title="eliminar" onclick="eliminar('{{tecnico.id}}')"></i></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="row">&nbsp;</div>
+        <div class="row"><button class="btn btn-success" onclick="nuevo()" id="btnVarios">Agregar Nuevo Técnico</button></div>
+    </div>
+    <div class="modal fade" id="modalTecnico" tabindex="-1" role="dialog" aria-labelledby="modalTecnico" aria-hidden="true">
+    </div>
+{% endblock %}
+{% block js %}
+<script>
+    $().ready(function (){
+        $.getJSON("{% url 'formTecnicos' %}",function (resultado){
+            $('#modalTecnico').html(resultado['formulario']);
+        });
+    });
+    function editar(tecnicoId)
+    {
+        $.getJSON("{% url 'formTecnicos' %}?id="+tecnicoId,function (resultado){
+            $('#modalTecnico').html(resultado['formulario']);
+            $('#modalTecnico').modal('show');
+        });
+    }
+    function nuevo()
+    {
+        $.getJSON("{% url 'formTecnicos' %}",function (resultado){
+            $('#modalTecnico').html(resultado['formulario']);
+            $('#modalTecnico').modal('show');
+        });
+    }
+    function eliminar(tecnicoId)
+    {
+        $.getJSON("{% url 'eliminarTecnicos' %}?id="+tecnicoId,function (resultado){
+            document.location.reload();
+        });
+    }
+</script>
+{% endblock %}

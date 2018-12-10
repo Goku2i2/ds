@@ -1,0 +1,37 @@
+{% extends 'ascensor/base_admin.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row">&nbsp;</div>
+    <h3 class="Titulo">Listado Y Detalle Ordenes</h3>
+    <div class="row">&nbsp;</div>
+    <div class="container-fluid ">
+        <table class="table" id="cliente-tabla" >
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Cliente</th>
+                <th scope="col">Técnico</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hora de inicio</th>
+                <th scope="col">Hora de termino</th>
+                <th scope="col">Identificador ascensor</th>            
+                <th scope="col">Modelo del ascensor</th>
+            </tr>
+            </thead>
+            <tbody id="cuerpoTabla">
+            {% for orden in ordenes %}
+                <tr>
+                    <td data-label="Cliente: &nbsp">{{orden.cliente.nombre}}</td>
+                    <td data-label="Cliente: &nbsp">{{orden.tecnico}}</td>
+                    <td data-label="Fecha: &nbsp">{{orden.fecha}}</td>
+                    <td data-label="Hora de inicio: &nbsp">{{orden.horaInicio}}</td>
+                    <td data-label="Hora de termino: &nbsp">{{orden.horaTermino}}</td>
+                    <td data-label="Identificador ascensor: &nbsp">{{orden.identificadorAscensor}}</td>
+                    <td data-label="Modelo del ascensor: &nbsp">{{orden.modeloAscensor}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="modalOrdenes" tabindex="-1" role="dialog" aria-labelledby="modalOrdenes" aria-hidden="true">
+    </div>
+{% endblock %}

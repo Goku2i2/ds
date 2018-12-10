@@ -1,0 +1,23 @@
+{% load crispy_forms_tags %}
+<form action="MisOrdenes.html" method="post">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Orden Mantenimiento Ascensor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="hidden" name="idOrden" value="{{form.instance.id}}"/>
+                <input type="hidden" name="idCliente" value="{{idCliente}}"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnVarios">Cancelar</button>
+                <input type="submit" value="Guardar Nueva Orden" class="btn btn-success" id="btnVarios"/> <!--guardar orden -->
+            </div>
+        </div>
+    </div>
+</form>
